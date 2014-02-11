@@ -1,0 +1,71 @@
+<!doctype html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+    <script src="js/AudioContextMonkeyPatch.js"></script>
+	<script src="js/audiodisplay.js"></script>
+	<script src="js/recorderjs/recorder.js"></script>
+	<script src="js/main.js"></script>
+	<title>Audio Recorder</title>
+	<style>
+	body { 
+		background: lightgrey;
+		font-size: 200%;
+		overflow: hidden;
+		height: 90vh;
+	}
+	
+	button {
+		padding: 3px 5px;
+	}
+	
+	#controls {
+		width: 100%;
+		margin: 30px auto;
+		text-align: center;
+		position: relative;
+	}
+	
+	#prompt {
+		height: 60vh;
+		width: 60%;
+		overflow-y: auto;
+		margin-top: 10px;
+		margin-left: 20%;
+		text-align: center;
+		position: relative;
+		padding: 20px;
+		background: #f0f0f0;
+		line-height: 50px;
+	}
+	
+	#promptCount {
+		margin-left: 20%;
+		margin-top: 30px;
+	}
+	
+	</style>
+</head>
+<body>
+	<!--
+	<div id="otherControls">
+		<button name="prev" onclick="previousPrompt();">&lt;&lt;</button>
+		<button name="play" onclick="playCurrent();">((o))</button>
+		<button name="nextShort" onclick="nextPrompt();">&gt;&gt;</button>
+	</div>
+	-->
+	<div id="promptCount">
+		<span id="counter"></span>
+	</div>
+	<div id="prompt">
+		Say this and this and this Say this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and this
+	</div>
+	<div id="controls">
+		<audio id="recordedWav">Replay</audio>
+		<button id="replayButton" onclick="playPrevious();" disabled="true">Replay</button>
+		<button id="recordButton" onclick="toggleRecording(this);">Record</button>
+		<button id="nextButton" onclick="goToPrompt(nextPrompt);">Next</button>
+		<button id="submitButton" onclick="onSubmit();">Submit</button>
+	</div>
+</body>
+</html>
