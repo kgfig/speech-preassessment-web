@@ -1,69 +1,88 @@
-
 <!doctype html>
 <html>
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
-	<title>Audio Recorder</title>
     <script src="js/AudioContextMonkeyPatch.js"></script>
 	<script src="js/audiodisplay.js"></script>
 	<script src="js/recorderjs/recorder.js"></script>
 	<script src="js/main.js"></script>
+	<title>Audio Recorder</title>
 	<style>
-	html { overflow: hidden; }
 	body { 
-		font: 14pt Arial, sans-serif; 
 		background: lightgrey;
-		display: flex;
-		flex-direction: column;
-		height: 100vh;
-		width: 100%;
-		margin: 0 0;
+		font-size: 200%;
+		overflow: hidden;
+		height: 90vh;
 	}
-	canvas { 
-		display: inline-block; 
-		background: #202020; 
-		width: 95%;
-		height: 45%;
-		box-shadow: 0px 0px 10px blue;
+	
+	button {
+		padding: 3px 5px;
 	}
+	
 	#controls {
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: space-around;
-		height: 20%;
 		width: 100%;
+		margin: 30px auto;
+		text-align: center;
+		position: relative;
 	}
-	#record { height: 15vh; }
-	#record.recording { 
-		background: red;
-		background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,lightgrey 75%,lightgrey 100%,#7db9e8 100%); 
+	
+	#prompt {
+		height: 40vh;
+		width: 60%;
+		overflow-y: auto;
+		margin: 10px 20%;
+		text-align: center;
+		position: relative;
+		padding: 20px;
+		background: #f0f0f0;
+		line-height: 50px;
 	}
-	#save { height: 10vh; }
-	#viz {
-		height: 80%;
-		width: 100%;
-		display: flex;
-		flex-direction: column;
-		justify-content: space-around;
-		align-items: center;
+	
+	#header {
+		height: 15vh;
+		width: 62%;
+		margin: 10px 20%;
+		position: relative;
+		padding: 10px;
 	}
-	@media (orientation: landscape) {
-		body { flex-direction: row;}
-		#controls { flex-direction: column; height: 100%; width: 10%;}
-		#viz { height: 100%; width: 90%;}
+	
+	canvas { 
+		background: #202020; 
+		box-shadow: 0px 0px 10px blue;
+		width: 25%;
+		float: right;
+		bottom: 0px;
+		height: 100%;
 	}
-
+	
+	#counter {
+		float: left;
+		bottom: 0px;
+		position: absolute;
+	}
 	</style>
 </head>
 <body>
-	<div id="viz">
-		<canvas id="analyser" width="1024" height="500"></canvas>
-		<canvas id="wavedisplay" width="1024" height="500"></canvas>
+	<!--
+	<div id="otherControls">
+		<button name="prev" onclick="previousPrompt();">&lt;&lt;</button>
+		<button name="play" onclick="playCurrent();">((o))</button>
+		<button name="nextShort" onclick="nextPrompt();">&gt;&gt;</button>
+	</div>
+	-->
+	<div id="header">
+		<span id="counter"></span>
+		<canvas id="analyser"></canvas>
+	</div>
+	<div id="prompt">
+		Say this and this and this Say this and this and thisSay this and this and this Say this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this
 	</div>
 	<div id="controls">
-		<img id="record" src="img/mic128.png" onclick="toggleRecording(this);">
-		<img id="save" src="img/save.svg" onclick="saveAudio();">
+		<audio id="recordedWav">Replay</audio>
+		<button id="replayButton" onclick="playPrevious();" disabled="true">Replay</button>
+		<button id="recordButton" onclick="toggleRecording(this);">Record</button>
+		<button id="nextButton" onclick="goToPrompt(nextPrompt);">Next</button>
+		<button id="submitButton" onclick="onSubmit();">Submit</button>
 	</div>
 </body>
 </html>

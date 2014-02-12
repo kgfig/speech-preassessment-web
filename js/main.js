@@ -125,14 +125,41 @@ function gotStream(stream) {
 }
 
 /************************ prompt status and data ***************************/
-
+var currentPrompt = null;
 var currentIndex = 0;
+var totalRecordCount = 0;
+var uploadedCount = 0;
 var prompts = new Array();
-prompts[0] = {text: "UNO", recorded: false, question: false, url: null, index: 0};
-prompts[1] = {text: "Andyan na si toot", recorded: false, question: false, url: null, index: 1};
-prompts[2] = {text: "Kamusta naman ang hair mo", recorded: false, question: false, url: null, index: 2};
-prompts[3] = {text: "Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this",
-				recorded: false, question: false, url: null, index: 3}
+
+function fetchPrompts() {
+	var request = new XMLHttpRequest();
+	request.open("GET", "prompts.json", true);
+	
+	request.onload = function() {
+		if (request.status >= 200 && request.status < 400) {
+			prompts = JSON.parse(request.responseText);
+			console.log("Received " + prompts.length + " prompts");
+			for (index in prompts) {
+				console.log(index+":"+ prompts[index].text+"\t"+prompts[index].recorded+"\t"+prompts[index].instruction);
+				if (!prompts[index].instruction)
+					totalRecordCount++;
+			}
+			console.log("Found " + totalRecordCount + " prompts to record");
+			initElements();
+			updatePrompt();
+			updateCounter();
+			updateControls();
+		} else {
+			alert("Failed to fetch prompts");
+		}
+	}
+	
+	request.onerror = function () {
+		alert("Failed to fetch prompts");
+	}
+	
+	request.send();
+}
 				
 /*********************** prompt controls and display ******************************/
 
@@ -161,9 +188,11 @@ function toggleRecording( e ) {
 		recordButton.textContent = "Record";
 		saveAudio();
     } else {
-        console.log("start recording");
-        if (!audioRecorder)
+        console.log("Start recording");
+        if (!audioRecorder) {
+			console.log("no audio recorder!");
             return;
+		}
         e.classList.add("recording");
         audioRecorder.clear();
         audioRecorder.record();
@@ -172,21 +201,21 @@ function toggleRecording( e ) {
 }
 
 function nextPrompt() {
-	if (currentPrompt.index < prompts.length - 1)
+	if (currentIndex < prompts.length - 1)
 		currentIndex++;
 	updatePrompt();
-	console.log("next prompt " + currentPrompt.text);
+	console.log("Next prompt " + currentPrompt.text);
 }
 
 function previousPrompt() {
-	if (currentPrompt.index > 0) 
+	if (currentIndex > 0) 
 		currentIndex--;
 	updatePrompt();
-	console.log("previous prompt " + currentPrompt.text);
+	console.log("Previous prompt " + currentPrompt.text);
 }
 
 function playPrevious() {
-	console.log("play previous prompt");
+	console.log("Play previous prompt");
 	goToPrompt(previousPrompt);
 	
 	if (currentPrompt.recorded)
@@ -199,24 +228,27 @@ function updatePrompt() {
 }
 
 function updateCounter() {
-	document.getElementById("counter").textContent = (currentPrompt.index + 1) + " / " + prompts.length;
+	document.getElementById("counter").textContent = (currentIndex + 1) + " / " + prompts.length;
 }
 
 function updateControls() {
-	if (currentPrompt.index == prompts.length - 1)
+	if (currentIndex == prompts.length - 1)
 		nextButton.disabled = true;
 	else
 		nextButton.disabled = false;
-		
-	if (prompts[0].recorded)
-		replayButton.disabled = false;
+	
+	console.log("instruction?"+prompts[currentIndex].instruction);
+	if (prompts[currentIndex].instruction)
+		recordButton.disabled = true;
+	else 
+		recordButton.disabled = false;
 }
 
 function setPrompt(newRecIndex) {
 	if (newRecIndex >=0 && newRecIndex < prompts.length)
 		currentIndex = newRecIndex;
 	updatePrompt();
-	console.log("set prompt " + currentPrompt.text);
+	console.log("Set prompt " + currentPrompt.text);
 }
 
 function goToPrompt(updatePromptIndex) {
@@ -228,26 +260,41 @@ function goToPrompt(updatePromptIndex) {
 }
 
 function getMissedPrompts() {
-	console.log("counting missed prompts");
+	console.log("Counting missed prompts");
 	var missing = [];
 	for (index in prompts) {
-		if (!prompts[index].recorded)
+		if (!prompts[index].recorded && !prompts[index].instruction)
 			missing.push(index);
 	}
-	console.log("found " +missing.length + " missed prompts");
+	console.log("Found " +missing.length + " missed prompts");
 	return missing;
+}
+
+function saveBlobURL( blob ) {
+	var url = (window.URL || window.webkitURL).createObjectURL(blob);
+	recordedWav.src = url;
+	currentPrompt.recorded = blob;
+	currentPrompt.url = url;
+	replayButton.disabled = false;
+    goToPrompt(nextPrompt);
 }
 
 function onSubmit() {
 	var missingIndices = getMissedPrompts();
 	if (!missingIndices || missingIndices.length == 0) {
-		var result = confirm("Thank you for participation!");
+		var result = confirm("Submit recordings?");
 		if (result) {
 			replayButton.disabled = true;
 			recordButton.disabled = true;
 			nextButton.disabled = true;
 			submitButton.disabled = true;
-			console.log("uploading recording " + index + " to " + prompts[index].url);
+			for (index in prompts) {
+				if (prompts[index].recorded) {
+					var filename = "username_sp" + (parseInt(index)+1) + "_" + prompts[index].url.substring(prompts[index].url.lastIndexOf(":")+1) + ".wav"
+					console.log("Uploading recording " + filename);
+					upload(filename, prompts[index].recorded);
+				}
+			}
 		}
 	} else {
 		var result = confirm("You missed " + missingIndices.length +" item(s).");
@@ -258,27 +305,22 @@ function onSubmit() {
 	}
 }
 
-function saveBlobURL( blob ) {
-	var url = (window.URL || window.webkitURL).createObjectURL(blob);
-	recordedWav.src = url;
-	upload("username_bday_sp1_"+url.substring(url.lastIndexOf(":")+1)+".wav", blob);
-	currentPrompt.recorded = blob;
-	currentPrompt.url = url;
-    goToPrompt(nextPrompt);
-}
-
 function upload(url, blob) {
-  var xhr=new XMLHttpRequest();
-  xhr.onload=function(e) {
-      if(this.readyState === 4) {
-          console.log("Server returned: ",e.target.responseText);
-      }
-  };
-  var fd=new FormData();
-  fd.append("filename", url);
-  fd.append("wavfile", blob);
-  xhr.open("POST","upload.php",true);
-  xhr.send(fd);
+	var xhr=new XMLHttpRequest();
+	xhr.onload=function(e) {
+		if(this.readyState === 4) {
+			uploadedCount++;
+			if (uploadedCount == totalRecordCount) {
+				alert(e.target.responseText);
+			}
+		}
+	};
+	
+	var fd=new FormData();
+	fd.append("filename", url);
+	fd.append("wavfile", blob);
+	xhr.open("POST","upload.php",true);
+	xhr.send(fd);
 }
 /*************************** on load ************************/
 
@@ -294,9 +336,7 @@ function initAudio() {
             alert('Error getting audio');
             console.log(e);
         });
-	updatePrompt();
-	updateCounter();
-	initElements();
+	fetchPrompts();
 }
 
 window.addEventListener('load', initAudio );
