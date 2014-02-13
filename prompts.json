@@ -1,7 +1,314 @@
 [
-{"text": "Isang malugod na pagbati sa isang sesyon ng pagre-record. Pakibigkas at i-record ang mga sumusunod na mga pangungusap nang malakas.", "recorded": false, "instruction": true, "url": null},
-{"text": "Ito ay halimbawa ng pangungusap na babasahin.", "recorded": false, "instruction": false, "url": null},
-{"text": "For one minute, answer the question." , "recorded": false, "instruction": true, "url": null},
-{"text": "Why do you want to learn English?", "recorded": false, "instruction": false, "url": null},
-{"text": "Salamat po sa inyong oras. Ang lahat ng datos ay matagumpay na nai-record at naitala.", "recorded": false, "instruction": true, "url": null}
+    {
+        "question_id": null,
+        "text": "Isang malugod na pagbati sa isang sesyon ng pagre-record. Pakibigkas at i-record ang mga sumusunod na mga pangungusap nang malakas.",
+        "recorded": false,
+        "instruction": true
+    },
+    {
+        "question_id": 1,
+        "text": "Jim, I was wondering if we could discuss our new marketing strategy for a moment.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 2,
+        "text": "Yes, I think you'll make an excellent team. How do you feel about the merchandise we're pushing?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 3,
+        "text": "I totally agree. Who buys more products than twenty somethings?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 4,
+        "text": "I'm not keen on changing our target audience, but we certainly have to improve our brand image.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 5,
+        "text": "Maybe, but we also have to keep our competitive edge in quality.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 6,
+        "text": "Can you let me know when your next meeting with Anne is going to be? I'd like to go over some of our restructuring ideas with both of you.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 7,
+        "text": "I'm afraid I already have an appointment then. Do you think we could meet next week?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 8,
+        "text": "That would be great, thank you. See you next Tuesday afternoon then, at two o'clock.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 9,
+        "text": "In my opinion, the products were offering are fine. However, I think we should concentrate on expanding our market share in the young adult market.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 10,
+        "text": "Exactly. We haven't been very successful in our branding efforts, have we?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 11,
+        "text": "If we want to edge out our main competitor, we're going to have to target customers at a younger age.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 12,
+        "text": "Why don't we all get together for a discussion?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 13,
+        "text": "As a matter of fact, we'll be meeting this afternoon. Let's meet at four, shall we?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 14,
+        "text": "Well, I'll have to check with Anne. But she is usually free on Tuesdays. That's when we usually meet up.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 15,
+        "text": "Sure. See you next Tuesday Beth.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 16,
+        "text": "Good evening, madam. I trust you've had a pleasant day. Would you like to see the menu?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 17,
+        "text": "Here you are. Would you like to begin with something from the bar?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 18,
+        "text": "Certainly, madam.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 19,
+        "text": "There's pan seared tuna steak, sweet and sour shrimp, tip of sirloin with your choice of pepper corn sauce or sauteed mushrooms. We also have a vegetarian entree.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 20,
+        "text": "They're both very tasty. However, the tuna is fresh from the market.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 21,
+        "text": "Very good, madam. May I bring you an appetizer as well? The gazpacho is very tasty.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 22,
+        "text": "Excellent choice, and for your first course?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 23,
+        "text": "May I suggest the linguini al pesto?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 24,
+        "text": "Would you like to see the wine menu?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 25,
+        "text": "The Pinot Grigio would go well with your meal.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 26,
+        "text": "Would you like to order your dessert now, madam?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 27,
+        "text": "Certainly. I'll bring the dessert list later.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 28,
+        "text": "Will that be all madam?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 29,
+        "text": "I will act now. I will act now. I will act now. Henceforth, I will repeat these words each hour, each day, everyday, until the words become as much a habit as my breathing, and the action which follows becomes as instinctive as the blinking of my eyelids. With these words I can condition my mind to perform every action necessary for my success. I will act now. I will repeat these words again and again and again. I will walk where failures fear to walk. I will work when failures seek rest.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 30,
+        "text": "I will act now for now is all I have. Tomorrow is the day reserved for the labor of the lazy. I am not lazy. Tomorrow is the day when the failure will succeed. I am not a failure. I will act now. Success will not wait. If I delay, success will become wed to another and lost to me forever. This is the time. This is the place. I am the person.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 31,
+        "text": "With a timid voice and idolizing eyes, the little boy greeted his father as he returned from work, \"Daddy, how much do you make in an hour?\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 32,
+        "text": "Greatly surprised, but giving his boy a glaring look, the father said: \"Look, son, not even your mother knows that. Don't bother me now, I'm tired.\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 33,
+        "text": "\"But Daddy, just tell me please!? How much do you make in an hour?\" the boy insisted.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 34,
+        "text": "The father finally giving up replied: \"Twenty dollars per hour.\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 35,
+        "text": "\"Okay, Daddy? Could you loan me ten dollars?\" the boy asked.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 36,
+        "text": "Showing restlessness and positively disturbed, the father yelled:",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 37,
+        "text": "\"So that was the reason you asked how much I earn, right? Go to sleep and don't bother me anymore!\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 38,
+        "text": "It was already dark and the father was meditating on what he had said and was feeling guilty. \"Maybe\", he thought, \"My son wanted to buy something.\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 39,
+        "text": "Finally, trying to ease his mind, the father went to his son's room.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 40,
+        "text": "\"Are you asleep son?\" asked the father.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 41,
+        "text": "\"No, Daddy. Why?\" replied the boy partially asleep.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 42,
+        "text": "\"Here's the money you asked for earlier,\" the father said.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 43,
+        "text": "\"Thanks, Daddy!\" rejoiced the son, while putting his hand under his pillow and removing some money. \"Now I have enough! Now I have twenty dollars!\" the boy said to his father, who was gazing at his son, confused at what his son just said. \"Daddy, could you sell me one hour of your time?\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 45,
+        "text": "Well, I'll have to check with Anne. But she is usually free on Tuesdays. That's when we usually meet up.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 46,
+        "text": "I will act now. I will act now. I will act now. Henceforth, I will repeat these words each hour, each day, everyday, until the words become as much a habit as my breathing, and the action which follows becomes as instinctive as the blinking of my eyelids. With these words I can condition my mind to perform every action necessary for my success. I will act now. I will repeat these words again and again and again. I will walk where failures fear to walk. I will work when failures seek rest. I will act now for now is all I have. Tomorrow is the day reserved for the labor of the lazy. I am not lazy. Tomorrow is the day when the failure will succeed. I am not a failure. I will act now. Success will not wait. If I delay, success will become wed to another and lost to me forever. This is the time. This is the place. I am the person.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 47,
+        "text": "The father finally giving up replied: Twenty dollars per hour.\"",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 48,
+        "text": "It was already dark and the father was meditating on what he had said and was feeling guilty. Maybe, he thought,  My son wanted to buy something.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": 49,
+        "text": "\"Are you asleep son?\" asled the father.",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": null,
+        "text": "For one minute, answer the question.",
+        "recorded": false,
+        "instruction": true
+    },
+    {
+        "question_id": 44,
+        "text": "Why do you want to learn English?",
+        "recorded": false,
+        "instruction": false
+    },
+    {
+        "question_id": null,
+        "text": "Salamat po sa inyong oras. Ang lahat ng datos ay matagumpay na nai-record at naitala.",
+        "recorded": false,
+        "instruction": true
+    }
 ]

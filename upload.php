@@ -1,11 +1,13 @@
 <?php
 header("Content-type: text/plain");
 
-if (isset($_POST["filename"]) && isset($_FILES["wavfile"])) {
-	$target_filename = $_POST["filename"];
-	$tmp_filename = $_FILES["wavfile"]["tmp_name"];
-
-	rename($tmp_filename,"uploads/".$target_filename);
+if (isset($_POST["question_id"]) && isset($_FILES["wavfile"])) {
+	$user_id = "username";
+	$question_id = $_POST["question_id"];
+	$tmp_name = $_FILES["wavfile"]["tmp_name"];
+	$target_name = $user_id . "_" . $question_id . ".wav";
+	
+	rename($tmp_name,"uploads/".$target_name);
 	echo "Uploaded!";
 } else {
 	echo "Failed!";

@@ -264,7 +264,7 @@ function getMissedPrompts() {
 	var missing = [];
 	for (index in prompts) {
 		if (!prompts[index].recorded && !prompts[index].instruction)
-			missing.push(index);
+			missing.push(parseInt(index));
 	}
 	console.log("Found " +missing.length + " missed prompts");
 	return missing;
@@ -274,7 +274,6 @@ function saveBlobURL( blob ) {
 	var url = (window.URL || window.webkitURL).createObjectURL(blob);
 	recordedWav.src = url;
 	currentPrompt.recorded = blob;
-	currentPrompt.url = url;
 	replayButton.disabled = false;
     goToPrompt(nextPrompt);
 }
@@ -290,9 +289,8 @@ function onSubmit() {
 			submitButton.disabled = true;
 			for (index in prompts) {
 				if (prompts[index].recorded) {
-					var filename = "username_sp" + (parseInt(index)+1) + "_" + prompts[index].url.substring(prompts[index].url.lastIndexOf(":")+1) + ".wav"
-					console.log("Uploading recording " + filename);
-					upload(filename, prompts[index].recorded);
+					console.log("Uploading wav for question " + prompts[index].question_id);
+					upload(prompts[index]);
 				}
 			}
 		}
@@ -305,7 +303,7 @@ function onSubmit() {
 	}
 }
 
-function upload(url, blob) {
+function upload(uploadPrompt) {
 	var xhr=new XMLHttpRequest();
 	xhr.onload=function(e) {
 		if(this.readyState === 4) {
@@ -317,8 +315,8 @@ function upload(url, blob) {
 	};
 	
 	var fd=new FormData();
-	fd.append("filename", url);
-	fd.append("wavfile", blob);
+	fd.append("question_id", uploadPrompt.question_id);
+	fd.append("wavfile", uploadPrompt.recorded);
 	xhr.open("POST","upload.php",true);
 	xhr.send(fd);
 }
