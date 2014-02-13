@@ -124,12 +124,38 @@ function gotStream(stream) {
     updateAnalysers();
 }
 
+/******************************* loading ui ********************************/
+
+var requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame ||
+                            window.webkitRequestAnimationFrame || window.msRequestAnimationFrame;
+
+var cancelAnimationFrame = window.cancelAnimationFrame || window.mozCancelAnimationFrame;
+
+function showLoading() {
+	var modal = document.getElementById("modal");
+	modal.classList.add("modal");
+	var loading = document.getElementById("loading");
+	loading.style.display = "inline";
+	var top = (window.innerHeight/2 - 100) + "px";
+	var left = (window.innerWidth/2 - 250) + "px";
+	loading.style.top = top;
+	loading.style.left = left;
+}
+
+function hideLoading() {
+	var modal = document.getElementById("modal");
+	modal.classList.remove("modal");
+	var loading = document.getElementById("loading");
+	loading.style.display = "none";
+}
+
 /************************ prompt status and data ***************************/
 var currentPrompt = null;
 var currentIndex = 0;
 var totalRecordCount = 0;
 var uploadedCount = 0;
 var prompts = new Array();
+var loader = null;
 
 function fetchPrompts() {
 	var request = new XMLHttpRequest();
@@ -138,6 +164,10 @@ function fetchPrompts() {
 	request.onload = function() {
 		if (request.status >= 200 && request.status < 400) {
 			prompts = JSON.parse(request.responseText);
+			currentIndex = 0;
+			uploadedCount = 0;
+			totalRecordCount = 0;
+			currentPrompt = null;
 			console.log("Received " + prompts.length + " prompts");
 			for (index in prompts) {
 				console.log(index+":"+ prompts[index].text+"\t"+prompts[index].recorded+"\t"+prompts[index].instruction);
@@ -283,10 +313,7 @@ function onSubmit() {
 	if (!missingIndices || missingIndices.length == 0) {
 		var result = confirm("Submit recordings?");
 		if (result) {
-			replayButton.disabled = true;
-			recordButton.disabled = true;
-			nextButton.disabled = true;
-			submitButton.disabled = true;
+			showLoading();
 			for (index in prompts) {
 				if (prompts[index].recorded) {
 					console.log("Uploading wav for question " + prompts[index].question_id);
@@ -310,6 +337,8 @@ function upload(uploadPrompt) {
 			uploadedCount++;
 			if (uploadedCount == totalRecordCount) {
 				alert(e.target.responseText);
+				hideLoading();
+				fetchPrompts();
 			}
 		}
 	};
