@@ -210,12 +210,15 @@ function initElements() {
 }
 
 function toggleRecording( e ) {
+	stopPlayback();
 	if (e.classList.contains("recording")) {
         console.log("stop recording");
         audioRecorder.stop();
         e.classList.remove("recording");
         audioRecorder.getBuffers( drawWave );
 		recordButton.textContent = "Record";
+		recordButton.classList.remove("stop-button");
+		recordButton.classList.add("record-button");
 		saveAudio();
     } else {
         console.log("Start recording");
@@ -227,6 +230,8 @@ function toggleRecording( e ) {
         audioRecorder.clear();
         audioRecorder.record();
 		recordButton.textContent = "Stop";
+		recordButton.classList.remove("record-button");
+		recordButton.classList.add("stop-button");
     }
 }
 
@@ -248,8 +253,10 @@ function playPrevious() {
 	console.log("Play previous prompt");
 	goToPrompt(previousPrompt);
 	
-	if (currentPrompt.recorded)
+	if  (currentPrompt.recorded) {
+		recordedWav.src = (window.URL || window.webkitURL).createObjectURL(currentPrompt.recorded);
 		recordedWav.play();
+	}
 }
 
 function updatePrompt() {
@@ -282,12 +289,24 @@ function setPrompt(newRecIndex) {
 }
 
 function goToPrompt(updatePromptIndex) {
+	stopPlayback();
+	
 	if (updatePromptIndex)
 		updatePromptIndex();
 		
 	updateCounter();
 	updateControls();
 }
+
+function stopPlayback() {
+	if (recordedWav.src && recordedWav.currentTime > 0 && !recordedWav.ended) {
+		console.log("has src so stop src " + recordedWav.currentTime);
+		recordedWav.pause();
+		recordedWav.currentTime = 0;
+		console.log("src stopped");
+	}
+}
+	
 
 function getMissedPrompts() {
 	console.log("Counting missed prompts");

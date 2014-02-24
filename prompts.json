@@ -55,7 +55,7 @@
     },
     {
         "question_id": 9,
-        "text": "In my opinion, the products were offering are fine. However, I think we should concentrate on expanding our market share in the young adult market.",
+        "text": "In my opinion, the products we're offering are fine. However, I think we should concentrate on expanding our market share in the young adult market.",
         "recorded": false,
         "instruction": false
     },
@@ -91,7 +91,7 @@
     },
     {
         "question_id": 15,
-        "text": "Sure. See you next Tuesday Beth.",
+        "text": "Sure. See you next Tuesday, Beth.",
         "recorded": false,
         "instruction": false
     },

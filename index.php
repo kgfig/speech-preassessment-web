@@ -10,7 +10,6 @@
     <script src="js/AudioContextMonkeyPatch.js"></script>
 	<script src="js/audiodisplay.js"></script>
 	<script src="js/recorderjs/recorder.js"></script>
-	<script src="js/spin.min.js"></script>
 	<script src="js/main.js"></script>
 	<title>Speech Pre-assessment</title>
 	<style>
@@ -116,6 +115,19 @@
         z-index: 999;
 		display: none;
     }
+	.stop-button {
+		background: url("img/stop-button-bg.png") no-repeat scroll 5px 3px #e6e6e6;
+		padding: 5px 10px 5px 30px;
+	}
+	.play-button {
+		background: url("img/play-button-bg.png") no-repeat scroll 5px 3px #e6e6e6;
+		padding: 5px 10px 5px 30px;
+	}
+	.record-button {
+		background: url("img/record-button-bg.png") no-repeat scroll 5px 3px #e6e6e6;
+		padding: 5px 10px 5px 30px;
+	}
+	
 	</style>
 </head>
 <body>
@@ -142,12 +154,13 @@
 		</div>
 		<div id="controls">
 			<audio id="recordedWav">Replay</audio>
-			<button id="replayButton" onclick="playPrevious();" disabled="true">Replay</button>
-			<button id="recordButton" onclick="toggleRecording(this);">Record</button>
+			<button id="replayButton" onclick="playPrevious();" class="play-button" disabled="true">Replay</button>
+			<button id="recordButton" onclick="toggleRecording(this);" class="record-button">Record</button>
 			<button id="nextButton" onclick="goToPrompt(nextPrompt);">Next</button>
 			<button id="submitButton" onclick="onSubmit();">Submit</button>
 		</div>
 </div>
 </body>
-<?php } ?>
+<?php
+ } ?>
 </html>
