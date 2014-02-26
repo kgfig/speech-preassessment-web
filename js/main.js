@@ -232,6 +232,7 @@ function toggleRecording( e ) {
 		recordButton.textContent = "Stop";
 		recordButton.classList.remove("record-button");
 		recordButton.classList.add("stop-button");
+		disableButtons();
     }
 }
 
@@ -252,7 +253,11 @@ function previousPrompt() {
 function playPrevious() {
 	console.log("Play previous prompt");
 	goToPrompt(previousPrompt);
-	
+	playPrompt();
+}
+
+function playPrompt() {
+	console.log("Play current prompt");
 	if  (currentPrompt.recorded) {
 		recordedWav.src = (window.URL || window.webkitURL).createObjectURL(currentPrompt.recorded);
 		recordedWav.play();
@@ -274,16 +279,33 @@ function updateCounter() {
 }
 
 function updateControls() {
-	if (currentIndex == prompts.length - 1 || (!currentPrompt.instruction && !currentPrompt.recorded))
-		nextButton.disabled = true;
-	else
-		nextButton.disabled = false;
+	console.log("instruction? " + currentPrompt.instruction);
+	var prevPrompt = currentIndex == 0 ? prompts[0] : prompts[currentIndex - 1];
+	var disableNext = currentIndex == prompts.length - 1 || (!currentPrompt.instruction && !currentPrompt.recorded);
 	
-	console.log("instruction?"+prompts[currentIndex].instruction);
-	if (currentPrompt.instruction)
-		recordButton.disabled = true;
-	else 
-		recordButton.disabled = false;
+	replayButton.disabled = prevPrompt.instruction || !wasRecorded(prevPrompt);
+	recordButton.disabled = currentPrompt.instruction;
+	nextButton.disabled = disableNext;
+	
+	document.getElementById("prevSmall").disabled = currentIndex == 0;
+	document.getElementById("nextSmall").disabled = disableNext;
+	document.getElementById("playButton").disabled = !currentPrompt.recorded;
+	
+	var missingIndices = getMissedPrompts();
+	submitButton.disabled = missingIndices.length > 0;
+}
+
+function wasRecorded(prompt) {
+	return !prompt.instruction && prompt.recorded;
+}
+
+function disableButtons() {
+	nextButton.disabled = true;
+	replayButton.disabled = true;
+	submitButton.disabled = true;
+	document.getElementById("prevSmall").disabled = true;
+	document.getElementById("playButton").disabled = true;
+	document.getElementById("nextSmall").disabled = true;
 }
 
 function setPrompt(newRecIndex) {

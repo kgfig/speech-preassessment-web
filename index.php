@@ -4,7 +4,7 @@
 	define('WP_USE_THEMES', false);
 	require('../wp-blog-header.php');
 
-//	if ($current_user->ID > 0) {  ?>
+	if ($current_user->ID > 0) {  ?>
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
     <script src="js/AudioContextMonkeyPatch.js"></script>
@@ -46,10 +46,22 @@
 		-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	}
 	
-	:disabled {
+	.small-button {
+		padding: 5px 5px;
+	}
+	
+	button:disabled {
 		color: rgb(200, 200,200);
 	}
+	
+	button:hover {
+		box-shadow: 0px 0px 3px darkgrey;
+	}
 
+	.small-font {
+		font-size: 14pt !important;
+		line-height: 40px !important;
+	}
 	
 	#controls {
 		width: 100%;
@@ -68,11 +80,6 @@
 		padding: 20px;
 		background: #f0f0f0;
 		line-height: 50px;
-	}
-	
-	.small-font {
-		font-size: 14pt !important;
-		line-height: 40px !important;
 	}
 	
 	#header {
@@ -94,9 +101,14 @@
 	
 	#counter {
 		float: left;
+		position: absolute;
+	}
+	
+	#nav {
 		bottom: 0px;
 		position: absolute;
 	}
+	
 	.modal {
         position: fixed;
         top: 0;
@@ -143,15 +155,13 @@
 			<img src="img/loader.gif" alt="" />
 		</div>
 		<div id="modal"></div>
-		<!--
-		<div id="otherControls">
-			<button name="prev" onclick="previousPrompt();">&lt;&lt;</button>
-			<button name="play" onclick="playCurrent();">((o))</button>
-			<button name="nextShort" onclick="nextPrompt();">&gt;&gt;</button>
-		</div>
-		-->
 		<div id="header">
 			<span id="counter"></span>
+			<span id="nav">
+			<button id="prevSmall" onclick="goToPrompt(previousPrompt);" class="small-button">&lt;&lt;</button>
+			<button id="playButton" onclick="playPrompt();" class="small-button">((o))</button>
+			<button id="nextSmall" onclick="goToPrompt(nextPrompt);" class="small-button">&gt;&gt;</button>
+			</span>
 			<canvas id="analyser"></canvas>
 		</div>
 		<div id="prompt">
@@ -166,6 +176,5 @@
 		</div>
 </div>
 </body>
-<?php
-//} ?>
+<?php } ?>
 </html>
