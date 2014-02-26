@@ -4,7 +4,7 @@
 	define('WP_USE_THEMES', false);
 	require('../wp-blog-header.php');
 
-	if ($current_user->ID > 0) {  ?>
+//	if ($current_user->ID > 0) {  ?>
 <head>
 	<meta name="viewport" content="width=device-width,initial-scale=1">
     <script src="js/AudioContextMonkeyPatch.js"></script>
@@ -59,10 +59,10 @@
 	}
 	
 	#prompt {
-		height: 40vh;
-		width: 60%;
+		height: 50vh;
+		width: 80%;
 		overflow-y: auto;
-		margin: 10px 20%;
+		margin: 10px 8%;
 		text-align: center;
 		position: relative;
 		padding: 20px;
@@ -70,10 +70,15 @@
 		line-height: 50px;
 	}
 	
+	.small-font {
+		font-size: 14pt !important;
+		line-height: 40px !important;
+	}
+	
 	#header {
 		height: 15vh;
-		width: 62%;
-		margin: 10px 20%;
+		width: 80%;
+		margin: 10px 8%;
 		position: relative;
 		padding: 10px;
 	}
@@ -162,5 +167,5 @@
 </div>
 </body>
 <?php
- } ?>
+//} ?>
 </html>

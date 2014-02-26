@@ -261,7 +261,12 @@ function playPrevious() {
 
 function updatePrompt() {
 	currentPrompt = prompts[currentIndex];
-	document.getElementById("prompt").textContent = currentPrompt.text;
+	var promptElem = document.getElementById("prompt");
+	promptElem.textContent = currentPrompt.text;
+	promptElem.classList.remove("small-font");
+	
+	if (promptElem.scrollHeight > promptElem.offsetHeight)
+		promptElem.classList.add("small-font");
 }
 
 function updateCounter() {
@@ -269,13 +274,13 @@ function updateCounter() {
 }
 
 function updateControls() {
-	if (currentIndex == prompts.length - 1)
+	if (currentIndex == prompts.length - 1 || (!currentPrompt.instruction && !currentPrompt.recorded))
 		nextButton.disabled = true;
 	else
 		nextButton.disabled = false;
 	
 	console.log("instruction?"+prompts[currentIndex].instruction);
-	if (prompts[currentIndex].instruction)
+	if (currentPrompt.instruction)
 		recordButton.disabled = true;
 	else 
 		recordButton.disabled = false;
@@ -296,6 +301,8 @@ function goToPrompt(updatePromptIndex) {
 		
 	updateCounter();
 	updateControls();
+	
+	
 }
 
 function stopPlayback() {

@@ -1,7 +1,7 @@
 [
     {
         "question_id": null,
-        "text": "Isang malugod na pagbati sa isang sesyon ng pagre-record. Pakibigkas at i-record ang mga sumusunod na mga pangungusap nang malakas.",
+        "text": "Welcome to LEAP's Speech Recording Session. Please speak clearly when recording your voice.",
         "recorded": false,
         "instruction": true
     },
@@ -211,7 +211,7 @@
     },
     {
         "question_id": 35,
-        "text": "\"Okay, Daddy? Could you loan me ten dollars?\" the boy asked.",
+        "text": "\"Okay. Daddy, Could you loan me ten dollars?\" the boy asked.",
         "recorded": false,
         "instruction": false
     },
@@ -277,7 +277,7 @@
     },
     {
         "question_id": null,
-        "text": "Salamat po sa inyong oras. Ang lahat ng datos ay matagumpay na nai-record at naitala.",
+        "text": "Thank you for your time. Please click submit to upload your speech data.",
         "recorded": false,
         "instruction": true
     }
