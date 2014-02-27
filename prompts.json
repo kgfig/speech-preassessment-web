@@ -277,7 +277,7 @@
     },
     {
         "question_id": null,
-        "text": "Thank you for your time. Please click submit to upload your speech data.",
+        "text": "Thank you for your time. Please click 'Submit' to upload your speech data.",
         "recorded": false,
         "instruction": true
     }

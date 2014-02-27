@@ -408,7 +408,7 @@ function initAudio() {
             navigator.requestAnimationFrame = navigator.webkitRequestAnimationFrame || navigator.mozRequestAnimationFrame;
 
     navigator.getUserMedia({audio:true}, gotStream, function(e) {
-            alert('Error getting audio');
+            alert('Microphone not detected. Please attach and enable your microphone.');
             console.log(e);
         });
 	fetchPrompts();

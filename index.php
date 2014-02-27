@@ -46,10 +46,6 @@
 		-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
 	}
 	
-	.small-button {
-		padding: 5px 5px;
-	}
-	
 	button:disabled {
 		color: rgb(200, 200,200);
 	}
@@ -145,6 +141,37 @@
 		padding: 5px 10px 5px 30px;
 	}
 	
+	.small-button {
+		padding: 5px;
+		width: 32px;
+		height: 32px;
+	}
+	
+	#prevSmall {
+		background: url("img/prev-small-button.png") no-repeat scroll 5px 3px #e6e6e6;
+	}
+	
+	#prevSmall:disabled {
+		background: url("img/prev-small-button-disabled.png") no-repeat scroll 5px 3px #e6e6e6;
+	}
+	
+	#playButton {
+		background: url("img/play-small-button.png") no-repeat scroll 5px 3px #e6e6e6;
+	}
+	
+	#playButton:disabled {
+		background: url("img/play-small-button-disabled.png") no-repeat scroll 5px 3px #e6e6e6;
+	}
+	
+	#nextSmall {
+		background: url("img/next-small-button.png") no-repeat scroll 5px 3px #e6e6e6;
+	}
+	
+	#nextSmall:disabled {
+		background: url("img/next-small-button-disabled.png") no-repeat scroll 5px 3px #e6e6e6;
+	}
+	
+	
 	</style>
 </head>
 <body>
@@ -158,9 +185,9 @@
 		<div id="header">
 			<span id="counter"></span>
 			<span id="nav">
-			<button id="prevSmall" onclick="goToPrompt(previousPrompt);" class="small-button">&lt;&lt;</button>
-			<button id="playButton" onclick="playPrompt();" class="small-button">((o))</button>
-			<button id="nextSmall" onclick="goToPrompt(nextPrompt);" class="small-button">&gt;&gt;</button>
+			<button id="prevSmall" onclick="goToPrompt(previousPrompt);" class="small-button"></button>
+			<button id="playButton" onclick="playPrompt();" class="small-button"></button>
+			<button id="nextSmall" onclick="goToPrompt(nextPrompt);" class="small-button"></button>
 			</span>
 			<canvas id="analyser"></canvas>
 		</div>
