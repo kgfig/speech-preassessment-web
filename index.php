@@ -13,12 +13,14 @@
 	<script src="js/main.js"></script>
 	<title>Speech Pre-assessment</title>
 	<style>
+	
 	body { 
 		background: rgb(250, 250, 250);
 		font-size: 200%;
 		overflow: hidden;
 		height: 90vh;
 		color: rgb(45, 45, 45);
+		font-family: Helvetica, Arial, sans-serif;
 	}
 	
 	button {
@@ -55,8 +57,8 @@
 	}
 
 	.small-font {
-		font-size: 14pt !important;
-		line-height: 40px !important;
+		font-size: 18pt !important;
+		line-height: 125% !important;
 	}
 	
 	#controls {
@@ -132,12 +134,24 @@
 		background: url("img/stop-button-bg.png") no-repeat scroll 5px 3px #e6e6e6;
 		padding: 5px 10px 5px 30px;
 	}
+	
 	.play-button {
 		background: url("img/play-button-bg.png") no-repeat scroll 5px 3px #e6e6e6;
 		padding: 5px 10px 5px 30px;
 	}
+	
+	.play-button:disabled {
+		background: url("img/play-button-disabled-bg.png") no-repeat scroll 5px 3px #e6e6e6;
+		padding: 5px 10px 5px 30px;
+	}
+	
 	.record-button {
 		background: url("img/record-button-bg.png") no-repeat scroll 5px 3px #e6e6e6;
+		padding: 5px 10px 5px 30px;
+	}
+	
+	.record-button:disabled {
+		background: url("img/record-button-disabled-bg.png") no-repeat scroll 5px 3px #e6e6e6;
 		padding: 5px 10px 5px 30px;
 	}
 	
@@ -171,12 +185,15 @@
 		background: url("img/next-small-button-disabled.png") no-repeat scroll 5px 3px #e6e6e6;
 	}
 	
-	
+	.footnote {
+		font-size: 0.7em;
+		line-height: 140%;
+	}
 	</style>
 </head>
 <body>
 		<div id="loading" align="center">
-			Uploading. Please wait.
+			<span id="uploading-text">Uploading. Please wait.</span>
 			<br />
 			<br />
 			<img src="img/loader.gif" alt="" />

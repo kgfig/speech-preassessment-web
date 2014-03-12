@@ -1,7 +1,7 @@
 [
     {
         "question_id": null,
-        "text": "Welcome to LEAP's Speech Recording Session. Please speak clearly when recording your voice.",
+        "text": "Welcome to LEAP's Speech Recording Session. Please speak clearly when recording your voice. <br/><br/> <div class=\"footnote\">Please click \"Share Selected Device\" or \"Allow\" on your browser's pop-up message to use the microphone and record your voice.</div>",
         "recorded": false,
         "instruction": true
     },

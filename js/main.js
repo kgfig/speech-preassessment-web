@@ -267,7 +267,7 @@ function playPrompt() {
 function updatePrompt() {
 	currentPrompt = prompts[currentIndex];
 	var promptElem = document.getElementById("prompt");
-	promptElem.textContent = currentPrompt.text;
+	promptElem.innerHTML = currentPrompt.text;
 	promptElem.classList.remove("small-font");
 	
 	if (promptElem.scrollHeight > promptElem.offsetHeight)
@@ -286,6 +286,7 @@ function updateControls() {
 	replayButton.disabled = prevPrompt.instruction || !wasRecorded(prevPrompt);
 	recordButton.disabled = currentPrompt.instruction;
 	nextButton.disabled = disableNext;
+	nextButton.textContent = currentPrompt.instruction ? "OK" : "Next";
 	
 	document.getElementById("prevSmall").disabled = currentIndex == 0;
 	document.getElementById("nextSmall").disabled = disableNext;
@@ -359,14 +360,12 @@ function saveBlobURL( blob ) {
 function onSubmit() {
 	var missingIndices = getMissedPrompts();
 	if (!missingIndices || missingIndices.length == 0) {
-		var result = confirm("Submit recordings?");
-		if (result) {
-			showLoading();
-			for (index in prompts) {
-				if (prompts[index].recorded) {
-					console.log("Uploading wav for question " + prompts[index].question_id);
-					upload(prompts[index]);
-				}
+		showLoading();
+		for (index in prompts) {
+			if (prompts[index].recorded) {
+				console.log("Uploading wav for question " + prompts[index].question_id);
+				document.getElementById("uploading-text").textContent = "Uploading data for item #" + (parseInt(index)+1);
+				upload(prompts[index]);
 			}
 		}
 	} else {
@@ -415,3 +414,8 @@ function initAudio() {
 }
 
 window.addEventListener('load', initAudio );
+window.onbeforeunload = confirmExit;
+
+function confirmExit() {
+	return "You will lose all your data when you leave this page. Do you want to continue?";	
+}	

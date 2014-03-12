@@ -7,6 +7,10 @@ if (isset($_POST["question_id"]) && isset($_FILES["wavfile"])) {
 	$question_id = $_POST["question_id"];
 	$tmp_name = $_FILES["wavfile"]["tmp_name"];
 	
+	if ($question_id < 10) {
+		$question_id = "0" . $question_id;
+	}
+	
 	$user_id = $current_user->user_nicename;
 	$target_dir = "uploads/". $user_id . "/" ;
 	$target_name = $target_dir . $user_id . "_" . $question_id . ".wav";
