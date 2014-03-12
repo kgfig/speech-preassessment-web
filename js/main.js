@@ -29,7 +29,8 @@ var canvasWidth, canvasHeight;
 /****************** audio recording and wave display functions *******************/
 
 function saveAudio() {
-    audioRecorder.exportWAV( saveBlobURL );
+    //audioRecorder.exportWAV( saveBlobURL );
+	audioRecorder.exportMonoWAV(saveBlobURL); //monono
 }
 
 function drawWave( buffers ) {
@@ -110,6 +111,8 @@ function gotStream(stream) {
     realAudioInput = audioContext.createMediaStreamSource(stream);
     audioInput = realAudioInput;
     audioInput.connect(inputPoint);
+	
+	audioInput = convertToMono( inputPoint ); //monono
 
     analyserNode = audioContext.createAnalyser();
     analyserNode.fftSize = 2048;
@@ -150,11 +153,13 @@ function hideLoading() {
 }
 
 /************************ prompt status and data ***************************/
+var uploadIndex = 0;
 var currentPrompt = null;
 var currentIndex = 0;
 var totalRecordCount = 0;
 var uploadedCount = 0;
-var prompts = new Array();
+var prompts = [{question_id:null, text : "Loading prompts...", recorded: false, instruction: true}];
+prompts = new Array();
 var loader = null;
 
 function fetchPrompts() {
@@ -164,6 +169,7 @@ function fetchPrompts() {
 	request.onload = function() {
 		if (request.status >= 200 && request.status < 400) {
 			prompts = JSON.parse(request.responseText);
+			uploadIndex = 0;
 			currentIndex = 0;
 			uploadedCount = 0;
 			totalRecordCount = 0;
@@ -361,13 +367,7 @@ function onSubmit() {
 	var missingIndices = getMissedPrompts();
 	if (!missingIndices || missingIndices.length == 0) {
 		showLoading();
-		for (index in prompts) {
-			if (prompts[index].recorded) {
-				console.log("Uploading wav for question " + prompts[index].question_id);
-				document.getElementById("uploading-text").textContent = "Uploading data for item #" + (parseInt(index)+1);
-				upload(prompts[index]);
-			}
-		}
+		uploadNextRecording();
 	} else {
 		var result = confirm("You missed " + missingIndices.length +" item(s).");
 		if (result) {
@@ -377,12 +377,26 @@ function onSubmit() {
 	}
 }
 
+function uploadNextRecording() {
+	for (var index = uploadIndex; index < prompts.length; index++) {
+		if (prompts[index].recorded) {
+			console.log("Uploading wav for question " + prompts[index].question_id);
+			document.getElementById("uploading-text").textContent = "Uploading data for item #" + (index+1);
+			uploadIndex = index + 1;
+			upload(prompts[index]);
+			break;
+		}
+	}
+}
+
 function upload(uploadPrompt) {
 	var xhr=new XMLHttpRequest();
 	xhr.onload=function(e) {
 		if(this.readyState === 4) {
 			uploadedCount++;
-			if (uploadedCount == totalRecordCount) {
+			if (uploadedCount < totalRecordCount) {
+				uploadNextRecording();
+			} else {
 				alert(e.target.responseText);
 				hideLoading();
 				fetchPrompts();
