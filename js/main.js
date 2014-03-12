@@ -381,7 +381,7 @@ function uploadNextRecording() {
 	for (var index = uploadIndex; index < prompts.length; index++) {
 		if (prompts[index].recorded) {
 			console.log("Uploading wav for question " + prompts[index].question_id);
-			document.getElementById("uploading-text").textContent = "Uploading data for item #" + (index+1);
+			document.getElementById("uploading-text").textContent = "Uploading data for item #" + prompts[index].question_id;
 			uploadIndex = index + 1;
 			upload(prompts[index]);
 			break;
@@ -431,5 +431,5 @@ window.addEventListener('load', initAudio );
 window.onbeforeunload = confirmExit;
 
 function confirmExit() {
-	return "You will lose all your data when you leave this page. Do you want to continue?";	
+	return "You will lose all your data when you leave this page.";	
 }	

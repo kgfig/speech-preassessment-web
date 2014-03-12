@@ -22,8 +22,8 @@ if (isset($_POST["question_id"]) && isset($_FILES["wavfile"])) {
 	rename($tmp_name, $target_name);
 	//chmod($target_name,0755);
 	
-	echo "Complete!";
+	echo "Upload Complete!";
 } else {
-	echo "Failed!";
+	echo "Upload Failed!";
 }
 ?>
