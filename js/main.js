@@ -29,8 +29,8 @@ var canvasWidth, canvasHeight;
 /****************** audio recording and wave display functions *******************/
 
 function saveAudio() {
-    //audioRecorder.exportWAV( saveBlobURL );
-	audioRecorder.exportMonoWAV(saveBlobURL); //monono
+    audioRecorder.exportWAV( saveBlobURL );
+	//audioRecorder.exportMonoWAV(saveBlobURL); //monono
 }
 
 function drawWave( buffers ) {
@@ -112,7 +112,7 @@ function gotStream(stream) {
     audioInput = realAudioInput;
     audioInput.connect(inputPoint);
 	
-	audioInput = convertToMono( inputPoint ); //monono
+	//audioInput = convertToMono( inputPoint ); //monono
 
     analyserNode = audioContext.createAnalyser();
     analyserNode.fftSize = 2048;
