@@ -143,6 +143,12 @@ function showLoading() {
 	var left = (window.innerWidth/2 - 250) + "px";
 	loading.style.top = top;
 	loading.style.left = left;
+	var progressBar = document.getElementById("progressbar");
+	var saveButton = document.getElementById("save-recordings");
+	var wavlink = document.getElementById("wavlink");
+	progressBar.style.display = "inline";
+	saveButton.style.display = "none";
+	wavlink.style.display = "none";
 }
 
 function hideLoading() {
@@ -364,6 +370,7 @@ function getMissedPrompts() {
 function saveBlobURL( blob ) {
 	var url = (window.URL || window.webkitURL).createObjectURL(blob);
 	recordedWav.src = url;
+	currentPrompt.url = url;
 	currentPrompt.recorded = blob;
 	replayButton.disabled = false;
     goToPrompt(nextPrompt);
@@ -401,7 +408,6 @@ function uploadRecording() {
 	upload(prompts[uploadIndex]);
 	console.log("Uploading wav for question " + prompts[uploadIndex].question_id);
 	document.getElementById("uploading-text").textContent = "Uploading data for question #" + prompts[uploadIndex].question_id;
-	prompts[uploadIndex].uploaded = true;
 }
 
 function setNextUploadIndex() {
@@ -417,20 +423,27 @@ function upload(uploadPrompt) {
 	var xhr=new XMLHttpRequest();
 	xhr.onload=function(e) {
 		if(this.readyState === 4) {
-			if (this.status == 200 || uploadRetryCount >= 3) {
-				if (retryFunction != null) {
-					window.clearTimeout(retryFunction);
-					retryFunction = null;
-				}
+			if (retryFunction != null) {
+				window.clearTimeout(retryFunction);
+				retryFunction = null;
+			}
+			if (this.status == 200) {
 				setNextUploadIndex();
 				uploadedCount++;
 				uploadRetryCount = 0;
+				prompts[uploadIndex].uploaded = true;
 				console.log("Upload successful. Up next: item #" + uploadIndex);
 				continueUploadingOrReset();
-			} else {
-				console.log("Upload failed. Retrying item #" + uploadIndex);
-				uploadRetryCount++;
-				if (uploadRetryCount == 1) {
+			} else { 
+				if (uploadRetryCount >=3) {
+					console.log("Upload failed. Try saving to file instead.");
+					document.getElementById("uploading-text").textContent = "Failed. Save recordings as files?";
+					document.getElementById("progressbar").style.display = "none";
+					document.getElementById("save-recordings").style.display = "inline";
+					document.getElementById("wavlink").style.display = "none";
+				} else {
+					console.log("Upload failed. Retrying item #" + uploadIndex);
+					uploadRetryCount++;
 					retryFunction = setTimeout(continueUploadingOrResetOnTimer, millisecondsTilNextTry);
 				}
 			}
@@ -438,18 +451,16 @@ function upload(uploadPrompt) {
 		}
 	};
 	
-	var randomNum = Math.round(Math.random() * 10000);
+	//var randomNum = Math.round(Math.random() * 10000);
 	var fd=new FormData();
 	fd.append("question_id", uploadPrompt.question_id);
 	fd.append("wavfile", uploadPrompt.recorded);
-	xhr.open("POST","upload.php?"+randomNum,true);
+	xhr.open("POST","upload.php",true);
 	xhr.send(fd);
 }
 
 function continueUploadingOrResetOnTimer() {
 	continueUploadingOrReset();
-	
-	setTimeout(continueUploadingOrResetOnTimer, millisecondsTilNextTry);
 }
 
 function continueUploadingOrReset() {
@@ -460,6 +471,21 @@ function continueUploadingOrReset() {
 		hideLoading();
 		fetchPrompts();
 	}
+}
+
+function saveRecordings() {
+	for (index in prompts) {
+		if (prompts[index].recorded && !prompts[index].uploaded) {
+			var qid = prompts[index].question_id < 10 ? "0" + prompts[index].question_id : prompts[index].question_id;
+			var wavlink = document.getElementById("wavlink");
+			var uid = wavlink.textContent;
+			wavlink.href = prompts[index].url;
+			wavlink.download = uid + "_" + qid + ".wav";
+			wavlink.click();
+		}
+	}
+	hideLoading();
+	fetchPrompts();
 }
 
 /*************************** on load ************************/

@@ -220,8 +220,9 @@
 			<span id="uploading-text">Uploading. Please wait.</span>
 			<br />
 			<br />
-			<!--<img src="img/loader.gif" alt="" /> -->
 			<progress value="0" max="100" id="progressbar"></progress>
+			<button id="save-recordings" onclick="saveRecordings();">Yes</button>
+			<a href="" id="wavlink"><?php echo $current_user->user_nicename; ?></a>
 		</div>
 		<div id="modal"></div>
 		<div id="header">
@@ -234,7 +235,7 @@
 			<canvas id="analyser"></canvas>
 		</div>
 		<div id="prompt">
-			Say this and this and this Say this and this and thisSay this and this and this Say this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and thisSay this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this Say this and this and this
+			Loading prompts...
 		</div>
 		<div id="controls">
 			<audio id="recordedWav">Replay</audio>
