@@ -153,14 +153,19 @@ function hideLoading() {
 }
 
 /************************ prompt status and data ***************************/
+var uploadRetryCount = 0;
 var uploadIndex = 0;
 var currentPrompt = null;
 var currentIndex = 0;
 var totalRecordCount = 0;
 var uploadedCount = 0;
+var millisecondsTilNextTry = 3000;
 var prompts = [{question_id:null, text : "Loading prompts...", recorded: false, instruction: true}];
 prompts = new Array();
 var loader = null;
+
+var retryFunction = null;
+var loadingProgressFunction = null;
 
 function fetchPrompts() {
 	var request = new XMLHttpRequest();
@@ -179,6 +184,7 @@ function fetchPrompts() {
 				console.log(index+":"+ prompts[index].text+"\t"+prompts[index].recorded+"\t"+prompts[index].instruction);
 				if (!prompts[index].instruction)
 					totalRecordCount++;
+				prompts[index].uploaded = false;
 			}
 			console.log("Found " + totalRecordCount + " prompts to record");
 			initElements();
@@ -367,7 +373,9 @@ function onSubmit() {
 	var missingIndices = getMissedPrompts();
 	if (!missingIndices || missingIndices.length == 0) {
 		showLoading();
-		uploadNextRecording();
+		setNextUploadIndex();
+		loadingProgressFunction = window.requestAnimationFrame(updateLoadingProgress, 500);
+		uploadRecording();
 	} else {
 		var result = confirm("You missed " + missingIndices.length +" item(s).");
 		if (result) {
@@ -377,13 +385,29 @@ function onSubmit() {
 	}
 }
 
-function uploadNextRecording() {
-	for (var index = uploadIndex; index < prompts.length; index++) {
-		if (prompts[index].recorded) {
-			console.log("Uploading wav for question " + prompts[index].question_id);
-			document.getElementById("uploading-text").textContent = "Uploading data for item #" + prompts[index].question_id;
-			uploadIndex = index + 1;
-			upload(prompts[index]);
+function updateLoadingProgress() {
+	var val = (uploadedCount / totalRecordCount) * 100;
+	var max = document.getElementById("progressbar").max;
+	document.getElementById("progressbar").value = val;
+	
+	window.requestAnimationFrame(updateLoadingProgress, 500);
+	
+	if (val == max) {
+		window.cancelAnimationFrame(loadingProgressFunction);
+	}
+}
+
+function uploadRecording() {
+	upload(prompts[uploadIndex]);
+	console.log("Uploading wav for question " + prompts[uploadIndex].question_id);
+	document.getElementById("uploading-text").textContent = "Uploading data for question #" + prompts[uploadIndex].question_id;
+	prompts[uploadIndex].uploaded = true;
+}
+
+function setNextUploadIndex() {
+	for (var index = uploadIndex + 1; index < prompts.length; index++) {
+		if (prompts[index].recorded && !prompts[index].uploaded) {
+			uploadIndex = index;
 			break;
 		}
 	}
@@ -393,23 +417,51 @@ function upload(uploadPrompt) {
 	var xhr=new XMLHttpRequest();
 	xhr.onload=function(e) {
 		if(this.readyState === 4) {
-			uploadedCount++;
-			if (uploadedCount < totalRecordCount) {
-				uploadNextRecording();
+			if (this.status == 200 || uploadRetryCount >= 3) {
+				if (retryFunction != null) {
+					window.clearTimeout(retryFunction);
+					retryFunction = null;
+				}
+				setNextUploadIndex();
+				uploadedCount++;
+				uploadRetryCount = 0;
+				console.log("Upload successful. Up next: item #" + uploadIndex);
+				continueUploadingOrReset();
 			} else {
-				alert(e.target.responseText);
-				hideLoading();
-				fetchPrompts();
+				console.log("Upload failed. Retrying item #" + uploadIndex);
+				uploadRetryCount++;
+				if (uploadRetryCount == 1) {
+					retryFunction = setTimeout(continueUploadingOrResetOnTimer, millisecondsTilNextTry);
+				}
 			}
+			
 		}
 	};
 	
+	var randomNum = Math.round(Math.random() * 10000);
 	var fd=new FormData();
 	fd.append("question_id", uploadPrompt.question_id);
 	fd.append("wavfile", uploadPrompt.recorded);
-	xhr.open("POST","upload.php",true);
+	xhr.open("POST","upload.php?"+randomNum,true);
 	xhr.send(fd);
 }
+
+function continueUploadingOrResetOnTimer() {
+	continueUploadingOrReset();
+	
+	setTimeout(continueUploadingOrResetOnTimer, millisecondsTilNextTry);
+}
+
+function continueUploadingOrReset() {
+	if (uploadedCount < totalRecordCount) {
+		uploadRecording();
+	} else {
+		alert("Complete!");
+		hideLoading();
+		fetchPrompts();
+	}
+}
+
 /*************************** on load ************************/
 
 function initAudio() {

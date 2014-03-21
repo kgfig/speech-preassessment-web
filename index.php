@@ -189,6 +189,30 @@
 		font-size: 0.7em;
 		line-height: 140%;
 	}
+	
+	progress {
+		color: #272727;
+		font-size: .6em;
+		line-height: 1.5em;
+		text-indent: .5em;
+		width: 15em;
+		height: 1.4em;
+		border: 1px solid #272727;
+		background: #fff;
+	}
+	
+	progress[value] {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+        appearance: none;
+		border: none;
+	}
+	
+	progress::-moz-progress-bar { background: #272727; }
+	
+	progress::-webkit-progress-bar { background: #fff; }
+	progress::-webkit-progress-value { background: #272727; }
+	
 	</style>
 </head>
 <body>
@@ -196,7 +220,8 @@
 			<span id="uploading-text">Uploading. Please wait.</span>
 			<br />
 			<br />
-			<img src="img/loader.gif" alt="" />
+			<!--<img src="img/loader.gif" alt="" /> -->
+			<progress value="0" max="100" id="progressbar"></progress>
 		</div>
 		<div id="modal"></div>
 		<div id="header">
